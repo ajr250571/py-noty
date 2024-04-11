@@ -1,0 +1,22 @@
+# Python bytecode
+__pycache__
+
+# Virtual environment
+venv/
+.venv/
+
+# Build artifacts
+dist
+build
+*.egg-info
+
+# Coverage reports
+.coverage
+
+# IDE/Editor specific files (optional)
+*.pyc  # PyCharm
+.idea/  # PyCharm
+
+# Configuration files
+*.env
+local_settings.py
