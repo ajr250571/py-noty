@@ -11,6 +11,13 @@ notificaciones = []
 
 
 def send_mail(destinatario: str, cabecera: str, contenido: str):
+    """ 
+    send_mail
+    Args:
+        destinatario (str): email destinatarios separado con ;
+        cabecera (str): texto de cabecera del mail
+        contenido (str): texto del contenido del mail, chr(13) salto de linea
+    """
     contenido += chr(13)+chr(13)
     contenido += "Sistema de Notificaciones py-Notify"+chr(13)
     contenido += "Autor: Armando Rodriguez"+chr(13)
@@ -65,11 +72,11 @@ try:
         contenido = cabecera
         send_mail(destinatario, cabecera, contenido)
         """"""
-        notificaciones.append(f"Peso Tela -> {cabecera}")
+        notificaciones.append(f"PesoTela -> {cabecera}")
     else:
-        notificaciones.append("Peso Tela -> OK")
+        notificaciones.append("PesoTela -> OK")
 except Exception as e:
-    notificaciones.append("ProgIni -> ERROR except")
+    notificaciones.append("PesoTela -> ERROR except")
 
 
 """
@@ -114,6 +121,7 @@ try:
         notificaciones.append("FueraProg -> OK")
 except Exception as e:
     notificaciones.append("FueraProg -> ERROR except")
+
 
 """
 Resumen por Mail
