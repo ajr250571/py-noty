@@ -1,3 +1,4 @@
+import datetime
 import pandas as pd
 import smtplib
 from email.message import EmailMessage
@@ -11,7 +12,7 @@ notificaciones = []
 
 
 def send_mail(destinatario: str, cabecera: str, contenido: str):
-    """ 
+    """
     send_mail
     Args:
         destinatario (str): email destinatarios separado con ;
@@ -88,7 +89,7 @@ try:
     valor = round(df.iloc[0, 4], 2)
     if (valor > 0.32):
         """  Enviar Mail """
-        destinatario = "arodriguez@panpacksa.com.ar;santacruz@panpacksa.com.ar"
+        destinatario = "santacruz@panpacksa.com.ar"
         cabecera = f"CUIDADO: EE TanPi = {valor}  // Menor a 0.32 -> bonificacion.  // Mayor a 0.42 -> Recargo."
         contenido = cabecera
         send_mail(destinatario, cabecera, contenido)
@@ -121,6 +122,64 @@ try:
         notificaciones.append("FueraProg -> OK")
 except Exception as e:
     notificaciones.append("FueraProg -> ERROR except")
+
+"""
+ruta: \\cintas\Stockint
+Archivo: Master Titulos.xlsm
+Hoja: Control
+Verifica minimo 3 titulaciones dia por extr 8.
+"""
+hoy = datetime.date.today()
+ayer = hoy - datetime.timedelta(days=1)
+dia_ayer = ayer.weekday()
+
+""" Si el dia no es sabado o domingo """
+if dia_ayer != 5 and dia_ayer != 6:
+    destinatario = "suphila@panpacksa.com.ar;supteje@panpacksa.com.ar;rlascano@panpacksa.com.ar"
+    ruta_archivo = "//cintas/Stockint/Master Titulos.xlsm"
+    tit_min = 3
+    df = pd.read_excel(ruta_archivo, sheet_name="Control")
+    try:
+        extr2 = df.iloc[5, 2]
+        if (extr2 > 0 and extr2 < tit_min):
+            cabecera = f"CUIDADO: Extrusora 2 // Minimo: {tit_min} tit/dia // Ayer: {extr2} tit/dia)"
+            contenido = cabecera
+            send_mail(destinatario, cabecera, contenido)
+            """"""
+            notificaciones.append(f"Titulos Extr2 -> {cabecera}")
+        else:
+            notificaciones.append("Titulos Extr2 -> OK")
+
+    except Exception as e:
+        notificaciones.append("Titulos Extr2 -> ERROR except")
+
+    try:
+        extr6 = df.iloc[5, 6]
+        if (extr6 > 0 and extr6 < tit_min):
+            cabecera = f"CUIDADO: Extrusora 6 // Minimo: {tit_min} tit/dia // Ayer: {extr6} tit/dia)"
+            contenido = cabecera
+            send_mail(destinatario, cabecera, contenido)
+            """"""
+            notificaciones.append(f"Titulos Extr6 -> {cabecera}")
+        else:
+            notificaciones.append("Titulos Extr6 -> OK")
+
+    except Exception as e:
+        notificaciones.append("Titulos Extr6 -> ERROR except")
+
+    try:
+        extr8 = df.iloc[5, 7]
+        if (extr8 > 0 and extr8 < tit_min):
+            cabecera = f"CUIDADO: Extrusora 8 // Minimo: {tit_min} tit/dia // Ayer: {extr8} tit/dia)"
+            contenido = cabecera
+            send_mail(destinatario, cabecera, contenido)
+            """"""
+            notificaciones.append(f"Titulos Extr8 -> {cabecera}")
+        else:
+            notificaciones.append("Titulos Extr8 -> OK")
+
+    except Exception as e:
+        notificaciones.append("Titulos Extr8 -> ERROR except")
 
 
 """
