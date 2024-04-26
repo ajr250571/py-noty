@@ -89,7 +89,7 @@ try:
     valor = round(df.iloc[0, 4], 2)
     if (valor > 0.32):
         """  Enviar Mail """
-        destinatario = "santacruz@panpacksa.com.ar"
+        destinatario = "santacruz@panpacksa.com.ar,arodriguez@panpacksa.com.ar"
         cabecera = f"CUIDADO: EE TanPi = {valor}  // Menor a 0.32 -> bonificacion.  // Mayor a 0.42 -> Recargo."
         contenido = cabecera
         send_mail(destinatario, cabecera, contenido)
@@ -98,7 +98,7 @@ try:
     else:
         notificaciones.append("TanPi -> OK")
 except Exception as e:
-    notificaciones.append("ProgIni -> ERROR except")
+    notificaciones.append("TanPi -> ERROR except")
 
 """
 Alerta Articulos fuera de programa
@@ -135,12 +135,12 @@ dia_ayer = ayer.weekday()
 
 """ Si el dia no es sabado o domingo """
 if dia_ayer != 5 and dia_ayer != 6:
-    destinatario = "suphila@panpacksa.com.ar;supteje@panpacksa.com.ar;rlascano@panpacksa.com.ar"
+    destinatario = "suphila@panpacksa.com.ar,calidad@panpacksa.com.ar,supteje@panpacksa.com.ar,rlascano@panpacksa.com.ar,arodriguez@panpacksa.com.ar"
     ruta_archivo = "//cintas/Stockint/Master Titulos.xlsm"
     tit_min = 3
     df = pd.read_excel(ruta_archivo, sheet_name="Control")
     try:
-        extr2 = df.iloc[5, 2]
+        extr2 = round(df.iloc[5, 2], 0)
         if (extr2 > 0 and extr2 < tit_min):
             cabecera = f"CUIDADO: Extrusora 2 // Minimo: {tit_min} tit/dia // Ayer: {extr2} tit/dia)"
             contenido = cabecera
@@ -154,7 +154,7 @@ if dia_ayer != 5 and dia_ayer != 6:
         notificaciones.append("Titulos Extr2 -> ERROR except")
 
     try:
-        extr6 = df.iloc[5, 6]
+        extr6 = round(df.iloc[5, 6], 0)
         if (extr6 > 0 and extr6 < tit_min):
             cabecera = f"CUIDADO: Extrusora 6 // Minimo: {tit_min} tit/dia // Ayer: {extr6} tit/dia)"
             contenido = cabecera
@@ -168,7 +168,7 @@ if dia_ayer != 5 and dia_ayer != 6:
         notificaciones.append("Titulos Extr6 -> ERROR except")
 
     try:
-        extr8 = df.iloc[5, 7]
+        extr8 = round(df.iloc[5, 7], 0)
         if (extr8 > 0 and extr8 < tit_min):
             cabecera = f"CUIDADO: Extrusora 8 // Minimo: {tit_min} tit/dia // Ayer: {extr8} tit/dia)"
             contenido = cabecera
